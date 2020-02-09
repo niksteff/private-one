@@ -23,7 +23,7 @@ class LoginController extends AbstractController
     }
 
     /**
-     * @Route("/login/", name="page_login")
+     * @Route("/login", name="page_login")
      * @return Response
      */
     public function showLoginForm()
