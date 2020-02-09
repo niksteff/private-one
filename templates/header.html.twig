@@ -23,5 +23,11 @@
                 </li>
             </ul>
         </div>
+
+        <div class="text-right">
+            {% if app.user %}
+                Hello, {{ app.user.username }}
+            {% endif %}
+        </div>
     </nav>
 {% endblock %}
