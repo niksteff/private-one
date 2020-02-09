@@ -1,0 +1,57 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-6 align-self-center">
+            <div class="card-deck">
+                <div class="card mx-auto">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg pb-4">
+                                <form>
+                                    <label for="googleLogin">Login with your Google Account</label>
+                                    <button id="googleLogin" aria-describedby="googleLoginHelp"
+                                            class="btn btn-danger text-white form-control">Log in with Google
+                                    </button>
+                                    <small id="googleLoginHelp" class="form-text text-muted">We are not getting access
+                                        to
+                                        your
+                                        Google
+                                        Password. Want to know how this works? <a href="#">Click here.</a></small>
+                                </form>
+                                <form class="pt-4">
+                                    <label for="twitterLogin">Login with your Twitter Account</label>
+                                    <button id="twitterLogin" aria-describedby="twitterLoginHelp"
+                                            class="btn btn-primary text-white form-control">Log in with Twitter
+                                    </button>
+                                    <small id="twitterLoginHelp" class="form-text text-muted">We are not getting access
+                                        to
+                                        your
+                                        Twitter
+                                        Password. Want to know how this works? <a href="#">Click here.</a></small>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row border-top">
+                            <div class="col-lg pt-4">
+                                <form>
+                                    <label for="exampleInputEmail1">Email address</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1"
+                                           aria-describedby="emailHelp" placeholder="Enter email">
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                        anyone else.</small>
+                                    <div class="form-group pt-2">
+                                        <label for="exampleInputPassword1">Password</label>
+                                        <input type="password" class="form-control" id="exampleInputPassword1"
+                                               placeholder="Password">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

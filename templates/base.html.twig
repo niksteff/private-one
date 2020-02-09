@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>
@@ -7,14 +7,15 @@
             One focus
         {% endblock %}
     </title>
+
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
 <body>
-<h1>Test!!!</h1>
-{% block body %}
-{% endblock %}
+
+{% block body %}{% endblock %}
+
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
