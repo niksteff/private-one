@@ -1,3 +1,5 @@
+###> IDE related ignores ###
+.idea
 
 ###> symfony/framework-bundle ###
 /.env.local
