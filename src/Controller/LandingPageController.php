@@ -1,13 +1,15 @@
 <?php
 
+
 namespace App\Controller;
+
 
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class LoginController extends AbstractController
+class LandingPageController extends AbstractController
 {
     /**
      * @var LoggerInterface
@@ -15,6 +17,7 @@ class LoginController extends AbstractController
     private $logger;
 
     /**
+     * LandingPageController constructor.
      * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
@@ -23,11 +26,15 @@ class LoginController extends AbstractController
     }
 
     /**
-     * @Route("/login/", name="page_login")
+     * @Route("/", name="page_landing")
      * @return Response
      */
-    public function showLoginForm()
+    public function landingPage()
     {
-        return $this->render('login/login.html.twig');
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('page_login');
+        }
+
+        return $this->render('main.html.twig');
     }
 }
