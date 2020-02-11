@@ -18,7 +18,7 @@ class GoogleController extends AbstractController
      *
      * @return RedirectResponse
      */
-    public function connectAction(ClientRegistry $clientRegistry)
+    public function connectAction(ClientRegistry $clientRegistry): RedirectResponse
     {
         return $clientRegistry
             ->getClient('google')
@@ -36,14 +36,26 @@ class GoogleController extends AbstractController
      * because this is the "redirect_route" you configured
      * in config/packages/knpu_oauth2_client.yaml
      *
-     * @param Request $request
+     * @param Request        $request
      * @param ClientRegistry $clientRegistry
      *
      * @Route("/connect/google/check", name="connect_google_check")
      * @return RedirectResponse
      */
-    public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
+    public function connectCheckAction(Request $request, ClientRegistry $clientRegistry): RedirectResponse
     {
         return $this->redirectToRoute('page_landing');
+    }
+
+    /**
+     * @param Request        $request
+     * @param ClientRegistry $clientRegistry
+     *
+     * @Route("/connect/google/logout", name="connect_google_logout")
+     * @return RedirectResponse
+     */
+    public function connectLogoutAction(Request $request, ClientRegistry $clientRegistry): RedirectResponse
+    {
+        return $this->redirectToRoute('page_login');
     }
 }

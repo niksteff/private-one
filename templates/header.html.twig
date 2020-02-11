@@ -1,5 +1,5 @@
 {% block header %}
-    <nav class="nav navbar-expand-lg navbar-dark bg-dark text-white">
+    <nav class="nav navbar-expand-lg sticky-top navbar-dark bg-dark text-white">
         <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarContent" aria-controls="navbarContent"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -13,9 +13,6 @@
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a href="{{ path('page_login') }}" class="nav-link">Login Page</a>
-                </li>
-                <li class="nav-item">
                     <a href="{{ path('page_landing') }}" class="nav-link disabled">Link Two</a>
                 </li>
                 <li class="nav-item">
@@ -25,9 +22,24 @@
         </div>
 
         <div class="text-right">
-            {% if app.user %}
-                Hello, {{ app.user.username }}
-            {% endif %}
+            <ul class="navbar-nav mr-auto">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') == TRUE %}
+                    <li class="nav-item">
+                        <a href="{{ path('page_login') }}" data-toggle="dropdown" class="nav-link">
+                            Hello, {{ app.user.username }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('connect_google_logout') }}">Logout</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{{ path('page_login') }}" data-toggle="dropdown" class="nav-link">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </nav>
 {% endblock %}

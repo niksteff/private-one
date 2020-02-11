@@ -5,15 +5,17 @@ namespace App\Security;
 use App\Entity\AppUser;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
-use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
-use KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient;
+use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
+use League\OAuth2\Client\Token\AccessToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class GoogleAuthenticator extends SocialAuthenticator
@@ -35,12 +37,15 @@ class GoogleAuthenticator extends SocialAuthenticator
 
     /**
      * GoogleAuthenticator constructor.
-     * @param ClientRegistry $clientRegistry
+     * @param ClientRegistry         $clientRegistry
      * @param EntityManagerInterface $em
-     * @param UserManagerInterface $userManager
+     * @param UserManagerInterface   $userManager
      */
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, UserManagerInterface $userManager)
-    {
+    public function __construct(
+        ClientRegistry $clientRegistry,
+        EntityManagerInterface $em,
+        UserManagerInterface $userManager
+    ) {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
         $this->userManager = $userManager;
@@ -58,7 +63,7 @@ class GoogleAuthenticator extends SocialAuthenticator
 
     /**
      * @param Request $request
-     * @return \League\OAuth2\Client\Token\AccessToken|mixed
+     * @return AccessToken|mixed
      */
     public function getCredentials(Request $request)
     {
@@ -68,25 +73,32 @@ class GoogleAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param mixed $credentials
+     * @return GoogleClient
+     */
+    private function getGoogleClient()
+    {
+        return $this->clientRegistry->getClient('google');
+    }
+
+    /**
+     * @param mixed                 $credentials
      * @param UserProviderInterface $userProvider
-     * @return AppUser|null|object|\Symfony\Component\Security\Core\User\UserInterface
+     * @return AppUser|null|object|UserInterface
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         /** @var GoogleUser $googleUser */
-        $googleUser = $this->getGoogleClient()
-            ->fetchUserFromToken($credentials);
+        $googleUser = $this->getGoogleClient()->fetchUserFromToken($credentials);
 
         $email = $googleUser->getEmail();
-        dump($email);
-        dump($googleUser->getId());
+
         // 1) have they logged in with Google before? Easy!
         $existingUser = $this->em->getRepository(AppUser::class)
             ->findOneBy(['googleId' => $googleUser->getId()]);
 
         if ($existingUser) {
             $user = $existingUser;
+            // TODO: Update the users profile here
         } else {
             // 2) do we have a matching user by email?
             $user = $this->em->getRepository(AppUser::class)
@@ -111,17 +123,9 @@ class GoogleAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @return GoogleClient
-     */
-    private function getGoogleClient()
-    {
-        return $this->clientRegistry->getClient('google');
-    }
-
-    /**
-     * @param Request $request
+     * @param Request        $request
      * @param TokenInterface $token
-     * @param string $providerKey
+     * @param string         $providerKey
      * @return null|Response
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
@@ -131,7 +135,7 @@ class GoogleAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param Request $request
+     * @param Request                 $request
      * @param AuthenticationException $exception
      * @return null|Response
      */
@@ -146,7 +150,7 @@ class GoogleAuthenticator extends SocialAuthenticator
      * Called when authentication is needed, but it's not sent.
      * This redirects to the 'login'.
      *
-     * @param Request $request
+     * @param Request                      $request
      * @param AuthenticationException|null $authException
      *
      * @return RedirectResponse

@@ -31,9 +31,9 @@ class LandingPageController extends AbstractController
      */
     public function landingPage()
     {
-//        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-//            return $this->redirectToRoute('page_login');
-//        }
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('page_login');
+        }
 
         return $this->render('main.html.twig');
     }
