@@ -24,8 +24,8 @@
         <div class="text-right">
             <ul class="navbar-nav mr-auto">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') == TRUE %}
-                    <li class="nav-item">
-                        <a href="{{ path('page_login') }}" data-toggle="dropdown" class="nav-link">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Hello, {{ app.user.username }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
