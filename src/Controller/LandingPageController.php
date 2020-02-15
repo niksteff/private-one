@@ -29,12 +29,8 @@ class LandingPageController extends AbstractController
      * @Route("/", name="page_landing")
      * @return Response
      */
-    public function landingPage()
+    public function landingPageAction()
     {
-        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('page_login');
-        }
-
         return $this->render('main.html.twig');
     }
 }
