@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use DateTime;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
 /**
  * @ORM\Entity()
@@ -43,24 +46,26 @@ class Task
     /**
      * Task constructor.
      * @param AppUser $user
+     * @throws Exception
      */
     public function __construct(AppUser $user)
     {
-        $this->user = $user->getId();
+            $this->setUser($user);
+            $this->setDateCreated(new DateTime('now', new DateTimeZone('utc')));
     }
 
     /**
-     * @return int
+     * @return AppUser
      */
-    public function getUser(): int
+    public function getUser(): AppUser
     {
         return $this->user;
     }
 
     /**
-     * @param int $user
+     * @param AppUser $user
      */
-    public function setUser(int $user): void
+    public function setUser(AppUser $user): void
     {
         $this->user = $user;
     }
@@ -127,5 +132,21 @@ class Task
     public function setTitle($title): void
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 }

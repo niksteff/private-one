@@ -1,11 +1,9 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <div class="row min-vh-100">
-        <div class="col-lg min-vh-100">
-            <div class="d-flex justify-content-center align-items-center vh-100">
-                <h1 class="">Input comes here</h1>
-            </div>
+    <div class="row justify-content-center vh-100 align-content-center">
+        <div class="col-lg-6">
+            {% include 'main/inputbar.html.twig' %}
         </div>
     </div>
 {% endblock %}
