@@ -48,40 +48,47 @@ class LandingPageController extends AbstractController
         try {
             $user = $this->getUser();
 
-            // Check if a task for the user is currently existing
-            if ($this->taskService->checkUserForValidTask($user)) {
-                dump('task exists');
-                die();
-            }
-            // TODO: If a task exists and the task is still valid (in the timeframe) the user will not see the form
-
-            // TODO: If no task exists we can move on
-
-
+            // Prepare the form
             /** @var AppUser $user */
             $appTask = new Task($user);
             $form = $this->createForm(AppTaskType::class, $appTask);
 
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                /** @var Task $appTask */
-                dump($existingTasksForUser);
-                if ($existingTasksForUser === NULL) {
-                    $this->em->persist($appTask);
-                    $this->em->flush();
-                }
+            // Check if a task for the user is currently existing, if so return the task
+            $existingTask = $this->taskService->checkUserForValidTask($user);
+            if (NULL !== $existingTask) {
+                $form->setData($existingTask);
+                // TODO: task exists so we need to display the task edit option
+                return $this->render('main.html.twig', [
+                    'taskTitle' => $existingTask->getTitle(),
+                    'taskStartDate' => $existingTask->getDateCreated()->format('yyyy-mm-dd'),
+                    'taskEndDate' => $this->taskService->computeTaskEndDate($existingTask)->format('yyyy-mm-dd'),
+                ]);
             }
 
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                // TODO: persist the task
+                $newTask = $form->getData();
+
+                $this->em->persist($newTask);
+                $this->em->flush();
+
+                /** @var Task $newTask */
+                return $this->render('main.html.twig', [
+                    'taskTitle' => $newTask->getTitle(),
+                    'taskStartDate' => $newTask->getDateCreated()->format('yyyy-mm-dd'),
+                    'taskEndDate' => $this->taskService->computeTaskEndDate($newTask)->format('yyyy-mm-dd'),
+                ]);
+            }
+
+            /** @var Task $newTask */
             return $this->render('main.html.twig', [
                 'form' => $form->createView(),
-                'existingTask' => $existingTasksForUser
             ]);
         } catch (Exception $e) {
             $this->logger->error('Error creating form: ' . $e->getMessage());
             $this->logger->error($e->getTraceAsString());
             throw $e;
         }
-
-        return $this->render('main.html.twig');
     }
 }

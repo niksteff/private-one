@@ -7,6 +7,8 @@ services:
           POSTGRES_PASSWORD: toor
         ports: 
             - "5432:5432"
+        volumes:
+        - .data:/var/lib/postgresql/data
     web:
         build:
             context: .

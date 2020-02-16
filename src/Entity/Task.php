@@ -24,17 +24,17 @@ class Task
     private $user;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreated;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateCompleted;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateDeleted;
 
@@ -50,8 +50,8 @@ class Task
      */
     public function __construct(AppUser $user)
     {
-            $this->setUser($user);
-            $this->setDateCreated(new DateTime('now', new DateTimeZone('utc')));
+        $this->setUser($user);
+        $this->setDateCreated(new DateTime('now', new DateTimeZone('utc')));
     }
 
     /**
@@ -71,9 +71,9 @@ class Task
     }
 
     /**
-     * @return mixed
+     * @return DateTime
      */
-    public function getDateCreated()
+    public function getDateCreated(): DateTime
     {
         return $this->dateCreated;
     }
@@ -87,9 +87,9 @@ class Task
     }
 
     /**
-     * @return mixed
+     * @return DateTime|null
      */
-    public function getDateCompleted()
+    public function getDateCompleted(): ?DateTime
     {
         return $this->dateCompleted;
     }
@@ -103,9 +103,9 @@ class Task
     }
 
     /**
-     * @return mixed
+     * @return DateTime|null
      */
-    public function getDateDeleted()
+    public function getDateDeleted(): ?DateTime
     {
         return $this->dateDeleted;
     }

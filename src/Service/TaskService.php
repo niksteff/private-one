@@ -12,7 +12,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use function Sodium\add;
 
 class TaskService
 {
@@ -35,9 +34,10 @@ class TaskService
      * If no task exists or no task is valid true will be returned.
      *
      * @param UserInterface $user
-     * @return bool
+     * @return Task|NULL
+     * @throws Exception
      */
-    public function checkUserForValidTask(UserInterface $user): bool
+    public function checkUserForValidTask(UserInterface $user): ?Task
     {
         /** @var array<Task> $userTasks */
         $userTasks = $this->em->getRepository(Task::class)->findBy(['user' => $user]);
@@ -50,38 +50,74 @@ class TaskService
                     continue;
                 }
 
-                if ($this->isTaskActive($task->getDateCreated(), $task)) {
-                    dump('There is a still active task.');
-                    dump($task);
-                    return true;
+                if ($this->isTaskActive($task)) {
+                    return $task;
+                }
+
+                // Check again because maybe the task was completed just now
+                if (NULL !== $task->getDateCompleted()) {
+                    $this->em->persist($task);
                 }
             }
+
+            $this->em->flush();
         }
 
-        dump('There is NO other task.');
-        return false;
+        return NULL;
+    }
+
+    /**
+     * Computes the endDate for a task by adding the given or default daySpan onto the task.
+     *
+     * @param Task $task
+     * @param int $daySpan
+     * @return DateTime
+     * @throws Exception
+     */
+    public function computeTaskEndDate(Task $task, int $daySpan = 30): DateTime
+    {
+        try {
+            // Get the startDate from the task object
+            $startDate = $task->getDateCreated();
+
+            // Because ->add modifies the object it is called up we need to first clone the object
+            $endDate = clone $startDate;
+            $endDate->add(new DateInterval('P' . $daySpan . 'D'));
+
+            return $endDate;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
     /**
      * Computes whether a task is still active. A task is active if its creation date is not older than x days.
      * Where x days is a specified amount of days and defaults to 30.
      *
-     * @param DateTime $taskStartDate
-     * @param int $dateSpan
      * @param Task $task
+     * @param int $daySpan
      * @return bool
      * @throws Exception
      */
     private
-    function isTaskActive(DateTime $taskStartDate, Task &$task, int $dateSpan = 30)
+    function isTaskActive(Task &$task, int $daySpan = 30)
     {
         try {
-            // TODO: Get the startDate plus the dateSpan
-            // TODO: Fix this.
-            $taskEndDate = $taskStartDate->modify('+' . $dateSpan . 'day');
+            // Get the startDate from the task object
+            $startDate = $task->getDateCreated();
 
-            // TODO: Check if the current date is bigger than the endDate. If so task is invalid.
+            // Because ->add modifies the object it is called up we need to first clone the object
+            $endDate = $this->computeTaskEndDate($task);
+
             $now = new DateTime('now', new DateTimeZone('utc'));
+
+            // endDate > currentDate = still valid task
+            if ($endDate > $now) {
+                return true;
+            }
+
+            // TODO: Set task as invalid
+            $task->setDateCompleted($endDate);
 
             return false;
         } catch (Exception $e) {
