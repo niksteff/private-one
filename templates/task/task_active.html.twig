@@ -1,0 +1,24 @@
+{% if activeTask | default %}
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            Your current priority
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg">
+                    <h2 class="h3">{{ activeTask.title }}</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg">
+                    <p>Priority active since: {{ activeTask.dateCreated | date("m/d/Y") }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg">
+                    <p>Completion is due to: {{ taskEndDate | date("m/d/Y") }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

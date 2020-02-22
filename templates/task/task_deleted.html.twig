@@ -1,0 +1,33 @@
+{% if deletedTasks | default %}
+    <div class="card">
+        <div class="card-header bg-warning text-dark">
+            Your deleted priorities
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-responsive-lg">
+                <thead>
+                <tr>
+                    <th>Priority set on</th>
+                    <th>Priority deleted on</th>
+                    <th>Priority title</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for deletedTask in deletedTasks %}
+                    <tr>
+                        <td>
+                            {{ deletedTask.title }}
+                        </td>
+                        <td>
+                            {{ deletedTask.dateCreated | date("m/d/Y") }}
+                        </td>
+                        <td>
+                            {{ deletedTask.dateCompleted | date("m/d/Y") }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}

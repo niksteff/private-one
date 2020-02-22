@@ -1,0 +1,19 @@
+{% extends 'main.html.twig' %}
+
+{% block viewContainer %}
+    <div class="row">
+        <div class="col-lg">
+            {% include 'task/task_active.html.twig' %}
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-lg">
+            {% include 'task/task_completed.html.twig' %}
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-lg">
+            {% include 'task/task_deleted.html.twig' %}
+        </div>
+    </div>
+{% endblock viewContainer %}

@@ -1,0 +1,33 @@
+{% if completedTasks | default %}
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            Your completed priorities
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-responsive-lg">
+                <thead>
+                <tr>
+                    <th>Priority set on</th>
+                    <th>Priority completed on</th>
+                    <th>Priority title</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for completedTask in completedTasks %}
+                    <tr>
+                        <td>
+                            {{ completedTask.dateCreated | date("m/d/Y") }}
+                        </td>
+                        <td>
+                            {{ completedTask.dateCompleted | date("m/d/Y") }}
+                        </td>
+                        <td>
+                            {{ completedTask.title }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}

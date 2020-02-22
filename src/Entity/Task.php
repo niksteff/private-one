@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
  */
 class Task
 {

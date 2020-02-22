@@ -34,3 +34,6 @@ services:
             DATABASE_URL: sql://root:toor@db/one_local
         ports: 
             - 9000
+
+volumes:
+    .data:

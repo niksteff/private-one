@@ -3,11 +3,8 @@
 {% block content %}
     <div class="row justify-content-center vh-100 align-content-center">
         <div class="col-lg-6">
-            {% if form|default %}
-                {% include 'main/inputbar.html.twig' %}
-            {% else %}
-                {% include 'main/tasklist.html.twig' %}
-            {% endif %}
+            {% block viewContainer %}
+            {% endblock viewContainer %}
         </div>
     </div>
 {% endblock %}

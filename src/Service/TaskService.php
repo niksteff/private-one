@@ -125,4 +125,34 @@ class TaskService
             throw $e;
         }
     }
+
+    /**
+     * Gets all tasks for the user that are completed
+     * @param UserInterface $user
+     * @return array
+     */
+    public function getUserCompletedTasks(UserInterface $user)
+    {
+        $passedTasks = $this->em->getRepository(Task::class)->getTasksCompletedForUser($user);
+        if (count($passedTasks) === 0) {
+            return [];
+        }
+
+        return $passedTasks;
+    }
+
+    /**
+     * Gets all the tasks for the user that are deleted
+     * @param UserInterface $user
+     * @return array
+     */
+    public function getUserDeletedTasks(UserInterface $user)
+    {
+        $deletedTasks = $this->em->getRepository(Task::class)->getTasksDeletedForUser($user);
+        if (count($deletedTasks) === 0) {
+            return [];
+        }
+
+        return $deletedTasks;
+    }
 }
