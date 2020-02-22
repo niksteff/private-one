@@ -21,15 +21,18 @@ class AppTaskType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Please enter your next priority',
+                'label_attr' => [
+                    'class' => 'text-muted of-text-small',
+                ],
                 'attr' => [
                     'class' => 'form-control form-control-lg',
-                    'placeholder' => 'What do you want to achieve?',
+                    'placeholder' => 'I want to make soup!',
                 ],
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Add priority',
+                'label' => 'Concentrate',
                 'attr' => [
-                    'class' => 'input-group-text bg-primary text-white'
+                    'class' => 'input-group-text bg-dark text-white'
                 ]
             ]);
     }

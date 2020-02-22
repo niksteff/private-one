@@ -1,22 +1,19 @@
 {% block header %}
-    <nav class="nav navbar-expand-lg sticky-top navbar-dark bg-dark text-white">
+    <nav class="nav navbar-expand-lg text-white of-nav-bar">
         <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarContent" aria-controls="navbarContent"
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <a class="navbar-brand pl-2" href="{{ path('page_landing') }}">
+        <a class="navbar-brand pl-2 text-white" href="{{ path('page_landing') }}">
             One focus
         </a>
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a href="{{ path('page_landing') }}" class="nav-link disabled">Link Two</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ path('page_landing') }}" class="nav-link disabled">Link Three</a>
+                    <a href="{{ path('page_landing') }}" class="nav-link text-white">my priorities</a>
                 </li>
             </ul>
         </div>
@@ -25,11 +22,12 @@
             <ul class="navbar-nav mr-auto">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') == TRUE %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Hello, {{ app.user.username }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="#">Settings</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ path('connect_google_logout') }}">Logout</a>
                         </div>

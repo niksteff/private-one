@@ -1,0 +1,24 @@
+$header-height: 40px;
+
+.of-text-small {
+  font-size: 0.75rem;
+}
+
+.of-content {
+  background-image: url("../images/start-bg-1.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.of-content-container {
+  height: calc(100vh - #{$header-height});
+}
+
+.of-nav-bar {
+  background-color: #735268;
+}
+
+.of-text-engaging {
+  color: #735268;
+}
