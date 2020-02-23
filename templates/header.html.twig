@@ -6,14 +6,14 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <a class="navbar-brand pl-2 text-white" href="{{ path('page_landing') }}">
+        <a class="navbar-brand pl-3 of-logo" href="{{ path('page_landing') }}">
             One focus
         </a>
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a href="{{ path('page_landing') }}" class="nav-link text-white">my priorities</a>
+                    <a href="{{ path('page_landing') }}" class="nav-link text-white">timeline</a>
                 </li>
             </ul>
         </div>
@@ -34,7 +34,7 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a href="{{ path('page_login') }}" data-toggle="dropdown" class="nav-link">Login</a>
+                        <a href="{{ path('page_login') }}" data-toggle="dropdown" class="nav-link text-white">Login</a>
                     </li>
                 {% endif %}
             </ul>

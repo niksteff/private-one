@@ -1,4 +1,5 @@
 $header-height: 40px;
+$header-backgroundcolor: #6e5773;
 
 .of-text-small {
   font-size: 0.75rem;
@@ -16,9 +17,22 @@ $header-height: 40px;
 }
 
 .of-nav-bar {
-  background-color: #735268;
+  background-color: transparent;
 }
 
 .of-text-engaging {
-  color: #735268;
+  color: $header-backgroundcolor;
+}
+
+.of-card-header {
+  border-color: $header-backgroundcolor;
+}
+
+.of-bg-dark {
+  background-color: $header-backgroundcolor;
+}
+
+.of-logo {
+  color: #ffffff;
+  font-weight: 400;
 }

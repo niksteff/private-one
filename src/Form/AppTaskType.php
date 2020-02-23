@@ -32,7 +32,7 @@ class AppTaskType extends AbstractType
             ->add('save', SubmitType::class, [
                 'label' => 'Concentrate',
                 'attr' => [
-                    'class' => 'input-group-text bg-dark text-white'
+                    'class' => 'input-group-text text-white of-bg-dark'
                 ]
             ]);
     }
